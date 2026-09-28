@@ -1,6 +1,10 @@
 # Claude Code 本地配置（个人权限设置，不该进版本库）
 .claude/settings.local.json
 
+# 生成的 HTML 可视化：内容完全来自同名 .md，体积是 md 的两倍多
+# 需要时用 /pydigest 现场重新生成
+reports/*.html
+
 # 系统文件
 .DS_Store
 Thumbs.db
