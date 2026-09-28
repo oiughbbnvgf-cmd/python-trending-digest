@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python 月榜 Top 10 深度摘要 · 2026-09-28</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+                 "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    color: #1a1a2e;
+    background: #f0f2f5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero {
+    position: relative;
+    background: linear-gradient(160deg, #0d1117 0%, #161b22 40%, #0f1a2e 70%, #1a0a2e 100%);
+    color: #fff;
+    padding: 56px 0 44px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 50%, rgba(88,166,255,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(163,113,247,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.12) 70%, transparent);
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+  .hero h1 { font-size: 30px; font-weight: 750; letter-spacing: -0.6px; line-height: 1.25; }
+  .hero h1 .icon { margin-right: 10px; }
+  .hero .subtitle { margin-top: 6px; font-size: 15px; color: #8b949e; font-weight: 400; }
+  .hero .meta-row { margin-top: 18px; display: flex; gap: 18px; flex-wrap: wrap; }
+  .hero .meta-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
+    background: rgba(255,255,255,0.08); color: #c9d1d9; border: 1px solid rgba(255,255,255,0.1);
+  }
+  .hero .meta-chip .chip-label { color: #58a6ff; font-weight: 600; margin-right: 2px; }
+
+  .stats-bar {
+    max-width: 1000px; margin: -18px auto 0; padding: 0 24px;
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  }
+  .stat-card {
+    background: #fff; border-radius: 10px; padding: 18px 20px; text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    border: 1px solid #e8eaed;
+  }
+  .stat-card .stat-num { font-size: 28px; font-weight: 750; letter-spacing: -0.5px; }
+  .stat-card .stat-label { font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase; letter-spacing: 0.6px; margin-top: 2px; }
+  .stat-new  .stat-num { color: #1a7f37; }
+  .stat-hot  .stat-num { color: #9a6700; }
+  .stat-drop .stat-num { color: #cf222e; }
+  .stat-total .stat-num { color: #0969da; }
+
+  .main { max-width: 1000px; margin: 28px auto 0; padding: 0 24px; padding-bottom: 80px; }
+
+  .tab-nav {
+    display: flex; gap: 0; margin-bottom: 20px;
+    background: #fff; border-radius: 10px; padding: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #e8eaed;
+  }
+  .tab-btn {
+    flex: 1; padding: 10px 20px; border: none; background: transparent;
+    font-size: 14px; font-weight: 600; color: #6b7280; cursor: pointer;
+    border-radius: 7px; transition: all 0.2s; font-family: inherit;
+  }
+  .tab-btn.active { background: #0969da; color: #fff; box-shadow: 0 1px 3px rgba(9,105,218,0.3); }
+  .tab-btn:not(.active):hover { color: #1a1a2e; background: #f6f8fa; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .section {
+    background: #fff; border-radius: 10px; padding: 26px 30px; margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #e8eaed;
+  }
+  .section h2 { font-size: 18px; font-weight: 650; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section .section-note { font-size: 13px; color: #6b7280; margin: -8px 0 14px; }
+
+  .badge { display: inline-flex; align-items: center; padding: 3px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.3px; }
+  .badge-new  { background: #dafbe1; color: #116329; }
+  .badge-hot  { background: #fff8c5; color: #7a6000; }
+  .badge-drop { background: #ffebe9; color: #a40e26; }
+
+  .table-wrap { overflow-x: auto; margin: 0 -4px; padding: 0 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 620px; }
+  thead th {
+    text-align: left; padding: 8px 12px 10px; font-weight: 600;
+    font-size: 11px; letter-spacing: 0.5px; color: #6b7280;
+    border-bottom: 2px solid #e5e7eb; white-space: nowrap;
+  }
+  tbody td { padding: 11px 12px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr { transition: background 0.15s; }
+  tbody tr:hover { background: #f6f8fa; }
+
+  .rank-num { font-weight: 700; color: #6b7280; font-size: 13px; }
+  .project-link { color: #0969da; text-decoration: none; font-weight: 600; }
+  .project-link:hover { text-decoration: underline; }
+  .lang-tag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 12px; font-weight: 500; background: #f0f0f5; color: #555; white-space: nowrap; }
+  .stars-num   { font-weight: 650; color: #1a1a2e; white-space: nowrap; }
+  .stars-gained { color: #1a7f37; font-weight: 650; white-space: nowrap; }
+  .evidence-text { font-size: 13px; color: #6b7280; }
+  .explain-text  { font-size: 14px; line-height: 1.55; }
+  .muted { color: #9ca3af; font-size: 13px; }
+
+  .idx-hot  { color: #cf222e; font-weight: 700; white-space: nowrap; }
+  .idx-warm { color: #9a6700; font-weight: 700; white-space: nowrap; }
+  .idx-cool { color: #6b7280; font-weight: 600; white-space: nowrap; }
+
+  .verdict { font-weight: 700; white-space: nowrap; letter-spacing: 1px; }
+  .v-3 { color: #1a7f37; }
+  .v-2 { color: #9a6700; }
+  .v-1 { color: #cf222e; }
+
+  .trend-read p { margin-bottom: 10px; font-size: 15px; line-height: 1.75; }
+  .trend-read p:last-child { margin-bottom: 0; }
+  .trend-read h3 { font-size: 15px; font-weight: 650; margin: 14px 0 6px; }
+
+  .detail-list { display: flex; flex-direction: column; gap: 20px; }
+  .project-card {
+    background: #fff; border-radius: 10px; overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #e8eaed;
+  }
+  .project-card-header {
+    padding: 20px 24px; border-bottom: 1px solid #f0f0f5;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 16px; flex-wrap: wrap;
+  }
+  .project-card-header .name-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .project-card-header h3 { font-size: 18px; font-weight: 650; }
+  .project-card-header h3 a { color: #0969da; text-decoration: none; }
+  .project-card-header h3 a:hover { text-decoration: underline; }
+  .project-card-header .stars-info { display: flex; align-items: center; gap: 14px; font-size: 13px; color: #6b7280; white-space: nowrap; }
+  .project-card-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 18px; }
+
+  .dim-label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; color: #6b7280; margin-bottom: 5px; }
+
+  .proj-what-is-it { font-size: 15px; line-height: 1.6; }
+  .proj-what-is-it .one-liner { font-weight: 600; }
+  .proj-who { font-size: 14px; line-height: 1.6; margin-top: 8px; }
+  .proj-who .persona {
+    display: inline-block; padding: 3px 10px; margin: 2px 4px 2px 0;
+    background: #eaf2fd; color: #0550ae; border-radius: 14px; font-size: 13px; font-weight: 500;
+  }
+  .proj-who .persona.persona-no { background: #ffebe9; color: #a40e26; }
+
+  .proj-tech table { min-width: 0; font-size: 13.5px; }
+  .proj-tech td { padding: 7px 10px; }
+  .proj-tech td:first-child {
+    width: 92px; color: #6b7280; font-weight: 600;
+    background: #f6f8fa; white-space: nowrap;
+  }
+  .proj-tech .tech-note { font-size: 14px; line-height: 1.6; margin-top: 10px; }
+
+  .proj-why-hot {
+    background: #fffbeb; border-left: 3px solid #d4a72c;
+    padding: 12px 16px; border-radius: 0 8px 8px 0;
+  }
+  .proj-why-hot ul { list-style: none; padding: 0; }
+  .proj-why-hot li { font-size: 14px; line-height: 1.6; padding-left: 18px; position: relative; margin-bottom: 4px; }
+  .proj-why-hot li:last-child { margin-bottom: 0; }
+  .proj-why-hot li::before { content: "\2192"; position: absolute; left: 0; color: #9a6700; font-weight: 700; }
+  .proj-why-hot li b { color: #7a6000; }
+
+  .proj-verdict { border: 1px solid #e8eaed; border-radius: 8px; padding: 14px 16px; background: #fbfcfd; }
+  .proj-verdict .vrow { font-size: 14px; line-height: 1.6; margin-bottom: 5px; }
+  .proj-verdict .vrow:last-of-type { margin-bottom: 10px; }
+  .proj-verdict .vrow b { color: #414651; }
+  .proj-verdict .final-verdict { border-top: 1px dashed #d0d7de; padding-top: 10px; font-size: 14px; line-height: 1.6; }
+  .proj-verdict .vrow .warn { color: #a40e26; font-weight: 600; }
+
+  .prior-note { font-size: 13px; color: #6b7280; background: #f6f8fa; padding: 10px 16px; border-radius: 8px; }
+
+  .empty-row td { text-align: center; color: #9ca3af; padding: 20px 12px !important; }
+
+  .footer { max-width: 1000px; margin: 0 auto; padding: 0 24px 40px; text-align: center; font-size: 12px; color: #9ca3af; }
+
+  @media (max-width: 700px) {
+    .hero { padding: 36px 0 30px; }
+    .hero h1 { font-size: 22px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat-card { padding: 14px 12px; }
+    .stat-card .stat-num { font-size: 22px; }
+    .section { padding: 18px 14px; }
+    .tab-nav { flex-wrap: wrap; }
+    .tab-btn { flex: unset; width: 50%; }
+    .project-card-header { flex-direction: column; gap: 8px; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .hero { background: #0d1117; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tab-nav { display: none; }
+    .tab-content { display: block !important; margin-bottom: 30px; }
+    .section, .project-card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+    .stats-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-content">
+    <h1><span class="icon">&#x1f4ca;</span>Python 月榜 Top 10 深度摘要 &mdash; 2026-09-28</h1>
+    <p class="subtitle">一句话价值 · 技术栈拆解 · 爆火归因 · 可落地性</p>
+    <div class="meta-row">
+      <span class="meta-chip"><span class="chip-label">语言</span> Python</span>
+      <span class="meta-chip"><span class="chip-label">周期</span> monthly</span>
+      <span class="meta-chip"><span class="chip-label">来源</span> github.com/trending</span>
+      <span class="meta-chip"><span class="chip-label">对比基准</span> 无（首期）</span>
+    </div>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-card stat-total"><div class="stat-num">10</div><div class="stat-label">项目总数</div></div>
+  <div class="stat-card stat-new"><div class="stat-num">4</div><div class="stat-label">新项目指数 &gt; 60%</div></div>
+  <div class="stat-card stat-hot"><div class="stat-num">1.2&times;</div><div class="stat-label">增速倍数中位数</div></div>
+  <div class="stat-card stat-drop"><div class="stat-num">2</div><div class="stat-label">零门槛可跑</div></div>
+</div>
+
+<div class="main">
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('briefing', this)">榜单速览</button>
+    <button class="tab-btn" onclick="switchTab('detailed', this)">深度拆解</button>
+  </div>
+
+  <!-- ═══════════ TAB 1: 榜单速览 ═══════════ -->
+  <div id="tab-briefing" class="tab-content active">
+
+    <div class="section">
+      <h2><span class="badge badge-new">TOP 10</span> 榜单速览</h2>
+      <p class="section-note">新项目指数 = 本月新增 ÷ 总 Star。&gt; 60% 标红（本月首次出圈），25–60% 标黄（上升期），&lt; 25% 灰色（老项目回潮）。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>项目</th><th>总 Star</th><th>本月新增</th><th>新项目指数</th><th>一句话价值</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-num">1</td>
+              <td><a class="project-link" href="https://github.com/superdesigndev/treg">superdesigndev/treg</a></td>
+              <td class="stars-num">3,599</td>
+              <td class="stars-gained">+2,945</td>
+              <td class="idx-hot">82%</td>
+              <td class="explain-text">把各家 API、CLI 和 agent skill 收进一个统一网关</td>
+            </tr>
+            <tr>
+              <td class="rank-num">2</td>
+              <td><a class="project-link" href="https://github.com/debpalash/VoiceStudio">debpalash/VoiceStudio</a></td>
+              <td class="stars-num">40,620</td>
+              <td class="stars-gained">+27,329</td>
+              <td class="idx-hot">67%</td>
+              <td class="explain-text">本地跑的开源语音平台，替代 ElevenLabs</td>
+            </tr>
+            <tr>
+              <td class="rank-num">3</td>
+              <td><a class="project-link" href="https://github.com/pollen-robotics/microduck_rl">pollen-robotics/microduck_rl</a></td>
+              <td class="stars-num">2,300</td>
+              <td class="stars-gained">+2,276</td>
+              <td class="idx-hot">99%</td>
+              <td class="explain-text">给双足机器人做的强化学习训练环境</td>
+            </tr>
+            <tr>
+              <td class="rank-num">4</td>
+              <td><a class="project-link" href="https://github.com/anthropics/financial-services">anthropics/financial-services</a></td>
+              <td class="stars-num">37,898</td>
+              <td class="stars-gained">+3,340</td>
+              <td class="idx-cool">9%</td>
+              <td class="explain-text">投行、研报、PE 等金融流程的 agent 模板</td>
+            </tr>
+            <tr>
+              <td class="rank-num">5</td>
+              <td><a class="project-link" href="https://github.com/ayghri/i-have-adhd">ayghri/i-have-adhd</a></td>
+              <td class="stars-num">51,652</td>
+              <td class="stars-gained">+26,939</td>
+              <td class="idx-warm">52%</td>
+              <td class="explain-text">强制 AI 把结论放第一、砍掉废话的提示词</td>
+            </tr>
+            <tr>
+              <td class="rank-num">6</td>
+              <td><a class="project-link" href="https://github.com/google-research/timesfm">google-research/timesfm</a></td>
+              <td class="stars-num">33,871</td>
+              <td class="stars-gained">+5,681</td>
+              <td class="idx-cool">17%</td>
+              <td class="explain-text">谷歌开源的时间序列预测基础模型</td>
+            </tr>
+            <tr>
+              <td class="rank-num">7</td>
+              <td><a class="project-link" href="https://github.com/jingyaogong/minimind">jingyaogong/minimind</a></td>
+              <td class="stars-num">62,781</td>
+              <td class="stars-gained">+7,876</td>
+              <td class="idx-cool">13%</td>
+              <td class="explain-text">两小时从零训一个 64M 的小模型</td>
+            </tr>
+            <tr>
+              <td class="rank-num">8</td>
+              <td><a class="project-link" href="https://github.com/MakazhanAlpamys/Soup">MakazhanAlpamys/Soup</a></td>
+              <td class="stars-num">7,421</td>
+              <td class="stars-gained">+4,140</td>
+              <td class="idx-warm">56%</td>
+              <td class="explain-text">一个 YAML 文件微调大模型，4G 显存也能跑</td>
+            </tr>
+            <tr>
+              <td class="rank-num">9</td>
+              <td><a class="project-link" href="https://github.com/experientiallabs/experiential">experientiallabs/experiential</a></td>
+              <td class="stars-num">7,238</td>
+              <td class="stars-gained">+6,829</td>
+              <td class="idx-hot">94%</td>
+              <td class="explain-text">自建模型网关，按流量降本并训专用模型</td>
+            </tr>
+            <tr>
+              <td class="rank-num">10</td>
+              <td><a class="project-link" href="https://github.com/K-Dense-AI/scientific-agent-skills">K-Dense-AI/scientific-agent-skills</a></td>
+              <td class="stars-num">46,874</td>
+              <td class="stars-gained">+11,881</td>
+              <td class="idx-warm">25%</td>
+              <td class="explain-text">166 个科研 skill，装上把 agent 变科学家</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="badge badge-hot">爆火</span> 为什么突然火</h2>
+      <p class="section-note">按增速倍数排序。倍数 = 本月新增 ÷ 此前存量 star，数值越大说明发现得越突然。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>项目</th><th>增速倍数</th><th>归因</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-num">3</td>
+              <td><a class="project-link" href="https://github.com/pollen-robotics/microduck_rl">pollen-robotics/microduck_rl</a></td>
+              <td class="stars-gained">94.8&times;</td>
+              <td class="explain-text">本月 +2,276 / 存量仅 24 star，几乎全部 star 是本月拿到的。实验室内部走向开源，填补了 HuggingFace 上机器人 RL 资源的空白。</td>
+            </tr>
+            <tr>
+              <td class="rank-num">9</td>
+              <td><a class="project-link" href="https://github.com/experientiallabs/experiential">experientiallabs/experiential</a></td>
+              <td class="stars-gained">16.7&times;</td>
+              <td class="explain-text">指数 94%，总量 7,238 中 6,829 是本月新增。「零加价」直接打模型 API 价格痛点，且托管版即开即用，落地门槛低。</td>
+            </tr>
+            <tr>
+              <td class="rank-num">1</td>
+              <td><a class="project-link" href="https://github.com/superdesigndev/treg">superdesigndev/treg</a></td>
+              <td class="stars-gained">4.5&times;</td>
+              <td class="explain-text">指数 82%，2,430 次提交说明迭代极密。正撞上 agent 从单模型调用转向多工具编排的拐点，多厂商 API 拼接痛点集中爆发。</td>
+            </tr>
+            <tr>
+              <td class="rank-num">2</td>
+              <td><a class="project-link" href="https://github.com/debpalash/VoiceStudio">debpalash/VoiceStudio</a></td>
+              <td class="stars-gained">2.1&times;</td>
+              <td class="explain-text">指数 67%，绝对新增 +27,329 为本期第二。ElevenLabs 涨价与 SaaS 合规顾虑是持续推力，开源 TTS 底模已成熟到能撑消费级产品。</td>
+            </tr>
+            <tr>
+              <td class="rank-num">8</td>
+              <td><a class="project-link" href="https://github.com/MakazhanAlpamys/Soup">MakazhanAlpamys/Soup</a></td>
+              <td class="stars-gained">1.3&times;</td>
+              <td class="explain-text">指数 56%。微调工具链长期缺一个配置文件驱动的层，「4GB 显存训 8B」这个数字本身极具传播性。</td>
+            </tr>
+            <tr>
+              <td class="rank-num">5</td>
+              <td><a class="project-link" href="https://github.com/ayghri/i-have-adhd">ayghri/i-have-adhd</a></td>
+              <td class="stars-gained">1.1&times;</td>
+              <td class="explain-text">指数 52%。一个提示词文件拿到 51,652 star，超过本期绝大多数正经项目。「不需要 ADHD 诊断」把话题从医疗转向通用效率。</td>
+            </tr>
+            <tr>
+              <td class="rank-num">10</td>
+              <td><a class="project-link" href="https://github.com/K-Dense-AI/scientific-agent-skills">K-Dense-AI/scientific-agent-skills</a></td>
+              <td class="stars-gained">0.34&times;</td>
+              <td class="explain-text">指数 25%，稳定扩张。agent skill 生态正从通用生产力向垂直专业领域扩散，科研是最被看好的方向之一。</td>
+            </tr>
+            <tr>
+              <td class="rank-num">6</td>
+              <td><a class="project-link" href="https://github.com/google-research/timesfm">google-research/timesfm</a></td>
+              <td class="stars-gained">0.20&times;</td>
+              <td class="explain-text">指数 17%，纯自然增长。2026-08 的 3.0 版（多变量 + 协变量）大概率是本波增量来源。</td>
+            </tr>
+            <tr>
+              <td class="rank-num">7</td>
+              <td><a class="project-link" href="https://github.com/jingyaogong/minimind">jingyaogong/minimind</a></td>
+              <td class="stars-gained">0.14&times;</td>
+              <td class="explain-text">指数 13%。总 star 本期最高但增速最低档——已沉淀的常青教学项目，不是新热点。</td>
+            </tr>
+            <tr>
+              <td class="rank-num">4</td>
+              <td><a class="project-link" href="https://github.com/anthropics/financial-services">anthropics/financial-services</a></td>
+              <td class="stars-gained">0.10&times;</td>
+              <td class="explain-text">指数 9%，典型自然增长。官方出品 + 金融是 agent 落地高价值场景，作为常青参考实现持续被收藏。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="badge badge-drop">决策</span> 可落地性与建议</h2>
+      <p class="section-note">不按 star 排，按「值不值得投入」排。这张表是本报告最该先看的一张。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>项目</th><th>门槛</th><th>上手成本</th><th>结论</th><th>一句话建议</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a class="project-link" href="https://github.com/ayghri/i-have-adhd">ayghri/i-have-adhd</a></td>
+              <td class="evidence-text">无 · 无 key · 无 GPU</td>
+              <td class="evidence-text">&lt; 1 分钟</td>
+              <td class="verdict v-3">&#9733;&#9733;&#9733;</td>
+              <td class="explain-text">今天就装。唯一无脑推荐的。按场景开关：日常问答开，深度研究关。</td>
+            </tr>
+            <tr>
+              <td><a class="project-link" href="https://github.com/anthropics/financial-services">anthropics/financial-services</a></td>
+              <td class="evidence-text">无 · 核心零门槛</td>
+              <td class="evidence-text">一条命令</td>
+              <td class="verdict v-3">&#9733;&#9733;&#9733;</td>
+              <td class="explain-text">不装也该读。行业 agent 模板怎么组织的范例，fork 率 14% 说明大量机构在改。</td>
+            </tr>
+            <tr>
+              <td><a class="project-link" href="https://github.com/MakazhanAlpamys/Soup">MakazhanAlpamys/Soup</a></td>
+              <td class="evidence-text">8GB 显存（4GB 为 BETA）</td>
+              <td class="evidence-text">两条命令 + 一个 YAML</td>
+              <td class="verdict v-3">&#9733;&#9733;&#9733;</td>
+              <td class="explain-text">有消费级显卡就试，先用免费 Colab 验证。记得锁版本，v0.75 有不兼容变更。</td>
+            </tr>
+            <tr>
+              <td><a class="project-link" href="https://github.com/google-research/timesfm">google-research/timesfm</a></td>
+              <td class="evidence-text">GPU 或 Apple Silicon</td>
+              <td class="evidence-text">中等</td>
+              <td class="verdict v-2">&#9733;&#9733;</td>
+              <td class="explain-text">研究可用，上生产前先测 15,360 截断。也量一下实际时间窗口会不会超。</td>
+            </tr>
+            <tr>
+              <td><a class="project-link" href="https://github.com/superdesigndev/treg">superdesigndev/treg</a></td>
+              <td class="evidence-text">需 treg token</td>
+              <td class="evidence-text">客户端即时，服务端较重</td>
+              <td class="verdict v-2">&#9733;&#9733;</td>
+              <td class="explain-text">先用托管版验证场景，别急着自建。私有 runbook 让你自托管时信息不全。</td>
+            </tr>
+            <tr>
+              <td><a class="project-link" href="https://github.com/debpalash/VoiceStudio">debpalash/VoiceStudio</a></td>
+              <td class="evidence-text">需下载模型 · 依赖重</td>
+              <td class="evidence-text">安装器或全链构建</td>
+              <td class="verdict v-2">&#9733;&#9733;</td>
+              <td class="explain-text">内网场景值得试，但要扛一整套本地环境。</td>
+            </tr>
+            <tr>
+              <td><a class="project-link" href="https://github.com/jingyaogong/minimind">jingyaogong/minimind</a></td>
+              <td class="evidence-text">训练需 8&times;3090 · 推理单卡可</td>
+              <td class="evidence-text">推理半小时 / 训练数周</td>
+              <td class="verdict v-2">&#9733;&#9733;</td>
+              <td class="explain-text">当教材读，别指望它的能力。README 自承 64M 事实知识有限、英语弱。</td>
+            </tr>
+            <tr>
+              <td><a class="project-link" href="https://github.com/experientiallabs/experiential">experientiallabs/experiential</a></td>
+              <td class="evidence-text">需 key · 捕获需 macOS</td>
+              <td class="evidence-text">中等</td>
+              <td class="verdict v-2">&#9733;&#9733;</td>
+              <td class="explain-text">先用托管版花小钱验证降本是否真实。fork 率仅 2.9%，连重度用户都用托管版。</td>
+            </tr>
+            <tr>
+              <td><a class="project-link" href="https://github.com/K-Dense-AI/scientific-agent-skills">K-Dense-AI/scientific-agent-skills</a></td>
+              <td class="evidence-text">需 Python 3.13+ · 部分需 key</td>
+              <td class="evidence-text">单个低 / 全量不推荐</td>
+              <td class="verdict v-2">&#9733;&#9733;</td>
+              <td class="explain-text">精准装 2-5 个，逐个当代码 review。skill 可执行代码和改文件。</td>
+            </tr>
+            <tr>
+              <td><a class="project-link" href="https://github.com/pollen-robotics/microduck_rl">pollen-robotics/microduck_rl</a></td>
+              <td class="evidence-text">硬性需 CUDA GPU</td>
+              <td class="evidence-text">立项级</td>
+              <td class="verdict v-1">&#9733;</td>
+              <td class="explain-text">绝大多数人直接跳过。这是研究资产不是工具，develop 分支无 release。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section trend-read">
+      <h2>&#x1f50d; 生态趋势</h2>
+
+      <h3>1. Agent 工具链是本期绝对主线，占 4/10 且包揽增速榜</h3>
+      <p><a class="project-link" href="https://github.com/superdesigndev/treg">treg</a>（#1，4.5×）、<a class="project-link" href="https://github.com/experientiallabs/experiential">experiential</a>（#9，16.7×）、<a class="project-link" href="https://github.com/ayghri/i-have-adhd">i-have-adhd</a>（#5，1.1×）、<a class="project-link" href="https://github.com/anthropics/financial-services">financial-services</a>（#4）——十个位置里四个在做「让 agent 更好用」的基础设施：统一网关、模型路由、输出纪律、行业模板。增速最高的两名（16.7× 和 4.5×）都在这一类。</p>
+
+      <h3>2. 「降低门槛」和「抬高门槛」是同一股力量的两面</h3>
+      <p>一边是 <a class="project-link" href="https://github.com/MakazhanAlpamys/Soup">Soup</a>（4GB 显存训 8B）、<a class="project-link" href="https://github.com/jingyaogong/minimind">minimind</a>（两小时训 64M）、VoiceStudio（本地替代 SaaS），都在把门槛往下压；另一边是 microduck_rl 必须 CUDA GPU、minimind 参考环境要 8×RTX 3090。<b>有意思的是门槛低的那些降的是「上手」门槛，高的那些降的是「知识」门槛而非硬件门槛——硬件门槛本身不降反升。</b></p>
+
+      <h3>3. 中位增速 1.2× 说明榜单已进入沉淀期</h3>
+      <p>10 个项目的增速倍数中位数只有 <b>1.2×</b>。本期有 4 个项目指数 &gt; 60%（真正新项目），但同时 3 个项目指数 &lt; 25%（financial-services 9%、minimind 13%、timesfm 17%），它们是已沉淀的常青项目。<b>月榜正在变成「新项目爆发 + 老项目常驻」的混合结构</b>，不再是一次性流量。</p>
+
+      <p><b>总结</b>：这一期的 Python 生态，钱和注意力都在流向 agent 的「中间层」——路由、网关、模板、输出纪律；而硬件密集型研究（机器人 RL）依然只在极小的圈子里流通。<b>选型的真实分水岭是门槛，不是热度</b>：10 个项目里能零成本跑通的只有 2 个，其余要么要 GPU、要么要自己扛环境。</p>
+    </div>
+
+    <div class="section">
+      <h2>&#x1f4cb; 完整数据</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>项目</th><th>语言</th><th>总 Star</th><th>Fork</th><th>本月新增</th><th>新项目指数</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="rank-num">1</td><td><a class="project-link" href="https://github.com/superdesigndev/treg">superdesigndev/treg</a></td><td><span class="lang-tag">Python</span></td><td class="stars-num">3,599</td><td class="evidence-text">294</td><td class="stars-gained">+2,945</td><td class="idx-hot">82%</td></tr>
+            <tr><td class="rank-num">2</td><td><a class="project-link" href="https://github.com/debpalash/VoiceStudio">debpalash/VoiceStudio</a></td><td><span class="lang-tag">Python</span></td><td class="stars-num">40,620</td><td class="evidence-text">4,822</td><td class="stars-gained">+27,329</td><td class="idx-hot">67%</td></tr>
+            <tr><td class="rank-num">3</td><td><a class="project-link" href="https://github.com/pollen-robotics/microduck_rl">pollen-robotics/microduck_rl</a></td><td><span class="lang-tag">Python</span></td><td class="stars-num">2,300</td><td class="evidence-text">496</td><td class="stars-gained">+2,276</td><td class="idx-hot">99%</td></tr>
+            <tr><td class="rank-num">4</td><td><a class="project-link" href="https://github.com/anthropics/financial-services">anthropics/financial-services</a></td><td><span class="lang-tag">Markdown/JSON/YAML</span></td><td class="stars-num">37,898</td><td class="evidence-text">5,465</td><td class="stars-gained">+3,340</td><td class="idx-cool">9%</td></tr>
+            <tr><td class="rank-num">5</td><td><a class="project-link" href="https://github.com/ayghri/i-have-adhd">ayghri/i-have-adhd</a></td><td><span class="lang-tag">提示词</span></td><td class="stars-num">51,652</td><td class="evidence-text">2,979</td><td class="stars-gained">+26,939</td><td class="idx-warm">52%</td></tr>
+            <tr><td class="rank-num">6</td><td><a class="project-link" href="https://github.com/google-research/timesfm">google-research/timesfm</a></td><td><span class="lang-tag">Python</span></td><td class="stars-num">33,871</td><td class="evidence-text">3,261</td><td class="stars-gained">+5,681</td><td class="idx-cool">17%</td></tr>
+            <tr><td class="rank-num">7</td><td><a class="project-link" href="https://github.com/jingyaogong/minimind">jingyaogong/minimind</a></td><td><span class="lang-tag">Python</span></td><td class="stars-num">62,781</td><td class="evidence-text">8,162</td><td class="stars-gained">+7,876</td><td class="idx-cool">13%</td></tr>
+            <tr><td class="rank-num">8</td><td><a class="project-link" href="https://github.com/MakazhanAlpamys/Soup">MakazhanAlpamys/Soup</a></td><td><span class="lang-tag">Python</span></td><td class="stars-num">7,421</td><td class="evidence-text">1,190</td><td class="stars-gained">+4,140</td><td class="idx-warm">56%</td></tr>
+            <tr><td class="rank-num">9</td><td><a class="project-link" href="https://github.com/experientiallabs/experiential">experientiallabs/experiential</a></td><td><span class="lang-tag">Python</span></td><td class="stars-num">7,238</td><td class="evidence-text">210</td><td class="stars-gained">+6,829</td><td class="idx-hot">94%</td></tr>
+            <tr><td class="rank-num">10</td><td><a class="project-link" href="https://github.com/K-Dense-AI/scientific-agent-skills">K-Dense-AI/scientific-agent-skills</a></td><td><span class="lang-tag">Python</span></td><td class="stars-num">46,874</td><td class="evidence-text">4,232</td><td class="stars-gained">+11,881</td><td class="idx-warm">25%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /tab-briefing -->
+
+  <!-- ═══════════ TAB 2: 深度拆解 ═══════════ -->
+  <div id="tab-detailed" class="tab-content">
+  <div class="detail-list">
+
+    <!-- 1 -->
+    <div class="project-card">
+      <div class="project-card-header">
+        <div class="name-row">
+          <span class="rank-num">#1</span>
+          <h3><a href="https://github.com/superdesigndev/treg">superdesigndev/treg</a></h3>
+          <span class="lang-tag">Python</span>
+        </div>
+        <div class="stars-info">
+          <span class="stars-num">3,599 总</span>
+          <span class="stars-gained">+2,945 本月</span>
+          <span class="idx-hot">指数 82%</span>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <div class="proj-what-is-it">
+          <span class="dim-label">① 一句话价值 + 适合谁</span>
+          <span class="one-liner">把各家 API、CLI 和 agent skill 收进一个统一网关。</span>
+          <div class="proj-who">
+            <span class="persona">同时接了 3 家以上外部 API / CLI / skill 的 agent 开发团队</span>
+            <span class="persona persona-no">只调一家 API 的项目——为它引入网关是纯粹的复杂度</span>
+          </div>
+        </div>
+        <div class="proj-tech">
+          <span class="dim-label">② 技术栈与实现</span>
+          <table>
+            <tr><td>核心依赖</td><td>FastAPI · SQLModel · Fernet 加密 · OAuth · Redis 协议 KV · SQLite/PostgreSQL</td></tr>
+            <tr><td>形态</td><td>Python 包（客户端 CLI）+ 独立服务端；仪表盘为 Node 22.12+ / npm</td></tr>
+            <tr><td>代码规模</td><td>2,430 commits（具体 LOC 未能核实）</td></tr>
+          </table>
+          <p class="tech-note">关键取舍是<b>凭据不出服务端</b>：调用方只拿一个 X-Treg-Token，真实密钥由服务端注入。代价是引入密钥托管这一整块攻击面——8 MiB 响应缓冲、Fernet 静态加密、账户数上限 10 个团队都是从这个设计里长出来的限制。</p>
+        </div>
+        <div class="proj-why-hot">
+          <span class="dim-label">③ 为什么突然火</span>
+          <ul>
+            <li><b>数据证据</b>：本月 +2,945，总量 3,599，指数 82%——82% 的 star 是本月拿到的。增速 4.5×，存量仅 654 star</li>
+            <li><b>时机因素</b>：2,430 次提交说明迭代极密。正撞上 agent 从单模型调用转向多工具编排的拐点</li>
+            <li><b>传播路径</b>：作者自建 treg.to 托管站并配 Enrich Arena，本身即分发渠道。未查到明确的首发来源</li>
+          </ul>
+        </div>
+        <div class="proj-verdict">
+          <span class="dim-label">④ 可落地性与风险</span>
+          <div class="vrow"><b>本地门槛</b>：无硬件要求，但需要一个 treg token</div>
+          <div class="vrow"><b>上手成本</b>：装包即有 CLI；自建 registry 需 tmux + uv，仪表盘另需 Node 22.12+</div>
+          <div class="vrow"><b>成熟度</b>：star/fork ≈ 12:1，fork 偏高（网关类正常）。项目太新，页面未显示提交日期与 release</div>
+          <div class="vrow"><b>风险</b>：生产拓扑保留在私有 runbook，自托管拿不到全部信息；开发用临时加密密钥重启即失效；项目无 release，接口随时可能变</div>
+          <div class="final-verdict"><b>结论</b> <span class="verdict v-2">&#9733;&#9733;</span> —— 产品对味，但私有 runbook 让你自托管时信息不全。先用托管版验证场景，别急着自建。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="project-card">
+      <div class="project-card-header">
+        <div class="name-row">
+          <span class="rank-num">#2</span>
+          <h3><a href="https://github.com/debpalash/VoiceStudio">debpalash/VoiceStudio</a></h3>
+          <span class="lang-tag">Python</span>
+        </div>
+        <div class="stars-info">
+          <span class="stars-num">40,620 总</span>
+          <span class="stars-gained">+27,329 本月</span>
+          <span class="idx-hot">指数 67%</span>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <div class="proj-what-is-it">
+          <span class="dim-label">① 一句话价值 + 适合谁</span>
+          <span class="one-liner">本地跑的开源语音平台，替代 ElevenLabs。</span>
+          <div class="proj-who">
+            <span class="persona">做配音、有声书、视频本地化，核心诉求是数据不出内网或按量成本</span>
+            <span class="persona persona-no">想开箱即用、不想管本地模型和硬件的人</span>
+          </div>
+        </div>
+        <div class="proj-tech">
+          <span class="dim-label">② 技术栈与实现</span>
+          <table>
+            <tr><td>核心依赖</td><td>Electron（唯一支持的桌面壳）· Bun / Node 22+ · Rust / Cargo · pyproject.toml + uv.lock</td></tr>
+            <tr><td>形态</td><td>本地桌面应用 + 本地 API / MCP 集成，默认引擎 OmniVoice</td></tr>
+            <tr><td>代码规模</td><td>3,381 commits（具体 LOC 未能核实）</td></tr>
+          </table>
+          <p class="tech-note">技术上并不「纯 Python」——是 Electron 壳 + Python 配置 + Rust 编译链的三明治。<b>旧 Tauri 应用在 0.5.3 之后已废弃</b>，这个迁移说明项目还在剧烈重构期。646 种语言、克隆、设计、转写、有声书全流程覆盖很宽，但每个方向的深度需要实测。</p>
+        </div>
+        <div class="proj-why-hot">
+          <span class="dim-label">③ 为什么突然火</span>
+          <ul>
+            <li><b>数据证据</b>：本月 +27,329，总量 40,620，指数 67%，增速 2.1×。绝对新增量本期第二</li>
+            <li><b>时机因素</b>：ElevenLabs 订阅涨价和 SaaS 合规顾虑是持续推力；开源 TTS 底模已成熟到能撑起可用的消费级产品</li>
+            <li><b>传播路径</b>：未能查到明确的单一传播来源</li>
+          </ul>
+        </div>
+        <div class="proj-verdict">
+          <span class="dim-label">④ 可落地性与风险</span>
+          <div class="vrow"><b>本地门槛</b>：无 API key 要求，但要下载模型，性能强依赖硬件</div>
+          <div class="vrow"><b>上手成本</b>：macOS/Linux 有安装器（需 curl + SHA-256 工具）；从源码构建需 Git + Node 22+ + Bun + Rust/Cargo，链路很长</div>
+          <div class="vrow"><b>成熟度</b>：40.6k star / 4,822 fork。页面未显示 release 和最新提交日期</div>
+          <div class="vrow"><b>风险</b>：声音克隆有法律边界，README 提示只在获得当事人同意时使用；Tauri→Electron 迁移说明生态不稳定；性能强依赖硬件，机器不行就是不行；从源码构建需 Git + Node 22+ + Bun + Rust 全套，链路很长</div>
+          <div class="final-verdict"><b>结论</b> <span class="verdict v-2">&#9733;&#9733;</span> —— 技术和热度都强，本地跑、数据不出内网是实打实的价值，代价是要扛一整套本地推理环境。个人研究和内网场景值得试。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="project-card">
+      <div class="project-card-header">
+        <div class="name-row">
+          <span class="rank-num">#3</span>
+          <h3><a href="https://github.com/pollen-robotics/microduck_rl">pollen-robotics/microduck_rl</a></h3>
+          <span class="lang-tag">Python</span>
+        </div>
+        <div class="stars-info">
+          <span class="stars-num">2,300 总</span>
+          <span class="stars-gained">+2,276 本月</span>
+          <span class="idx-hot">指数 99%</span>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <div class="proj-what-is-it">
+          <span class="dim-label">① 一句话价值 + 适合谁</span>
+          <span class="one-liner">给双足机器人做的强化学习训练环境。</span>
+          <div class="proj-who">
+            <span class="persona">做机器人 RL、sim-to-real 的研究团队，且已有 800g 级双足机器人实验条件</span>
+            <span class="persona persona-no">软件工程师、想「跑起来看看」的人——这是硬件研究资产，不是工具</span>
+          </div>
+        </div>
+        <div class="proj-tech">
+          <span class="dim-label">② 技术栈与实现</span>
+          <table>
+            <tr><td>核心依赖</td><td>mjlab · MuJoCo Warp · rsl_rl · PPO · BAM 执行器仿真</td></tr>
+            <tr><td>形态</td><td>训练环境库 + ONNX 策略导出（观测归一化器内嵌进导出图）</td></tr>
+            <tr><td>代码规模</td><td>1,230 commits（具体 LOC 未能核实）</td></tr>
+          </table>
+          <p class="tech-note">做的是<b>执行器物理仿真</b>：把真实电机的摩擦、齿隙（backlash）、随机化条件都建模进去，再用 PPO 训策略。观测维度 61，导出器会直接拒绝旧的 51 维策略——契约在演进中，跨版本迁移会踩坑。</p>
+        </div>
+        <div class="proj-why-hot">
+          <span class="dim-label">③ 为什么突然火</span>
+          <ul>
+            <li><b>数据证据</b>：本月 +2,276，总量 2,300，指数 99%——几乎全部 star 都是本月新增。增速 94.8×，存量仅 24 star。<b>本期最极端的爆发</b></li>
+            <li><b>时机因素</b>：pollen-robotics 是具身智能领域活跃实验室，从内部走向开源；HuggingFace 上机器人 RL 资源稀缺，填补空白本身就吸量</li>
+            <li><b>传播路径</b>：支持发布到 HF Hub 并提供 HF Jobs 远程训练，这些分发入口可能是主要流量来源</li>
+          </ul>
+        </div>
+        <div class="proj-verdict">
+          <span class="dim-label">④ 可落地性与风险</span>
+          <div class="vrow"><b>本地门槛</b>：<span class="warn">硬性要求 CUDA GPU</span>。ARM 设备（DGX Spark / Jetson / GB10）首次下载约 2 GB，需设 UV_HTTP_TIMEOUT=600</div>
+          <div class="vrow"><b>上手成本</b>：不是「上手」，是「立项」。需要 RL + MuJoCo + 机器人控制背景</div>
+          <div class="vrow"><b>成熟度</b>：1,230 commits，主分支为 develop 而非 main，<b>没有 release</b>。活跃开发中的研究代码</div>
+          <div class="vrow"><b>风险</b>：观测契约 51→61 维，旧策略无法加载，跨版本迁移会踩坑；README 自承 full-collision 模型当前无任务在用；develop 分支 + 无 release，接口随时可能变</div>
+          <div class="final-verdict"><b>结论</b> <span class="verdict v-1">&#9733;</span> —— 对绝大多数人直接跳过。这是给具身智能研究团队的研究代码，没有 GPU 和机器人就完全跑不起来。真相关的话直接读代码，不看 star。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="project-card">
+      <div class="project-card-header">
+        <div class="name-row">
+          <span class="rank-num">#4</span>
+          <h3><a href="https://github.com/anthropics/financial-services">anthropics/financial-services</a></h3>
+          <span class="lang-tag">Markdown/JSON/YAML</span>
+        </div>
+        <div class="stars-info">
+          <span class="stars-num">37,898 总</span>
+          <span class="stars-gained">+3,340 本月</span>
+          <span class="idx-cool">指数 9%</span>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <div class="proj-what-is-it">
+          <span class="dim-label">① 一句话价值 + 适合谁</span>
+          <span class="one-liner">投行、研报、PE 等金融流程的 agent 模板。</span>
+          <div class="proj-who">
+            <span class="persona">券商、买方、财富管理机构的技术团队，拿来当起点模板改</span>
+            <span class="persona persona-no">想找「开箱即用的金融 AI 产品」的人——这是模板集合，不是产品</span>
+          </div>
+        </div>
+        <div class="proj-tech">
+          <span class="dim-label">② 技术栈与实现</span>
+          <table>
+            <tr><td>核心依赖</td><td>无代码依赖。内容是 Markdown / JSON / YAML，无构建步骤</td></tr>
+            <tr><td>形态</td><td>Agent 插件包（Cowork / Claude Code / Managed Agents API）+ MCP 数据连接器</td></tr>
+            <tr><td>代码规模</td><td>73 commits——极轻，纯内容仓库</td></tr>
+          </table>
+          <p class="tech-note">装上后有 /comps、/dcf、/earnings、/ic-memo 等命令。MCP 侧接了 Daloopa、Morningstar、S&amp;P Global、FactSet、Moody's、LSEG、PitchBook、Box、Egnyte 等，也可部署到 Vertex AI / Bedrock / 内部 LLM 网关。</p>
+        </div>
+        <div class="proj-why-hot">
+          <span class="dim-label">③ 为什么突然火</span>
+          <ul>
+            <li><b>数据证据</b>：本月 +3,340，总量 37,898，指数仅 9%，增速 0.10×。<b>典型自然增长，不是爆发</b></li>
+            <li><b>时机因素</b>：Anthropic 官方出品 + 金融是 agent 落地的高价值场景，机构客户有强付费意愿；作为常青参考实现持续被收藏</li>
+            <li><b>传播路径</b>：官方账号推广 + 金融科技媒体引用，具体首发来源未能核实</li>
+          </ul>
+        </div>
+        <div class="proj-verdict">
+          <span class="dim-label">④ 可落地性与风险</span>
+          <div class="vrow"><b>本地门槛</b>：无硬件要求，核心 skills 零门槛。但 MCP 连接器基本都要机构订阅或 API key</div>
+          <div class="vrow"><b>上手成本</b>：极低。一条 claude plugin marketplace add 即可，仓库自带 check.py 校验</div>
+          <div class="vrow"><b>成熟度</b>：37.9k star / <b>5,465 fork（fork 率 14%，本期最高）</b>——大量机构在 clone 下来改。仅 73 commits，未显示 release 和提交日期</div>
+          <div class="vrow"><b>风险</b>：<span class="warn">依赖付费数据源</span>，FactSet、S&amp;P Global 一个都不便宜，成本主要在这；README 明确这是参考模板，输出是给专业人员复核的草稿，Agent 不做投资建议、不执行交易、不入账；子 agent 委派是 Research Preview</div>
+          <div class="final-verdict"><b>结论</b> <span class="verdict v-3">&#9733;&#9733;&#9733;</span> —— 零门槛、零成本起步、有官方背书。哪怕你不在金融行业，它也是一份写得很好的「行业 agent 模板该怎么组织」范例。强烈建议 fork 下来当参考。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="project-card">
+      <div class="project-card-header">
+        <div class="name-row">
+          <span class="rank-num">#5</span>
+          <h3><a href="https://github.com/ayghri/i-have-adhd">ayghri/i-have-adhd</a></h3>
+          <span class="lang-tag">提示词</span>
+        </div>
+        <div class="stars-info">
+          <span class="stars-num">51,652 总</span>
+          <span class="stars-gained">+26,939 本月</span>
+          <span class="idx-warm">指数 52%</span>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <div class="proj-what-is-it">
+          <span class="dim-label">① 一句话价值 + 适合谁</span>
+          <span class="one-liner">强制 AI 把结论放第一、砍掉废话的提示词。</span>
+          <div class="proj-who">
+            <span class="persona">受不了 AI 长篇大论、每次都要手动说「说重点」的所有人</span>
+            <span class="persona persona-no">需要完整推理过程的研究场景——它会主动砍掉你想看的内容</span>
+          </div>
+        </div>
+        <div class="proj-tech">
+          <span class="dim-label">② 技术栈与实现</span>
+          <table>
+            <tr><td>核心依赖</td><td>无依赖。纯提示词规则 + hooks + 脚本 + 测试 + 评测文件</td></tr>
+            <tr><td>形态</td><td>跨平台 agent skill（Claude、Codex、Cursor、OpenCode、Gemini、Kimi、Qwen）</td></tr>
+            <tr><td>代码规模</td><td>245 commits（具体 LOC 未能核实）</td></tr>
+          </table>
+          <p class="tech-note">规则本身很简单：结论先行、编号流程、只给一个可执行的下一步、<b>列表不超过 5 项</b>。装法是把插件从 GitHub 拉下来，重启后 /i-have-adhd 调用。定制路子是 fork 改 skills/i-have-adhd/SKILL.md 再替换安装副本。</p>
+        </div>
+        <div class="proj-why-hot">
+          <span class="dim-label">③ 为什么突然火</span>
+          <ul>
+            <li><b>数据证据</b>：本月 +26,939，总量 51,652，指数 52%，增速 1.1×。51,652 star 在本期排第 2——<b>一个提示词文件的 star 数超过绝大多数正经项目</b></li>
+            <li><b>时机因素</b>：踩中真实且普遍的痛点——AI 输出太长、答案埋太深。README 里「不需要 ADHD 诊断」是很聪明的定位，把话题从医疗转向通用效率</li>
+            <li><b>传播路径</b>：未能核实。跨 7 个 agent 平台的适配说明作者投入了分发，增速曲线更像社区自发传播</li>
+          </ul>
+        </div>
+        <div class="proj-verdict">
+          <span class="dim-label">④ 可落地性与风险</span>
+          <div class="vrow"><b>本地门槛</b>：<b>真正零门槛</b>。不需要 API key、不需要 GPU、不需要构建。装完重启即用</div>
+          <div class="vrow"><b>上手成本</b>：&lt; 1 分钟</div>
+          <div class="vrow"><b>成熟度</b>：51.7k star / 2,979 fork。无 release，未显示最新提交日期</div>
+          <div class="vrow"><b>风险</b>：<span class="warn">最大的风险是它太强了</span>。「列表不超过 5 项」「只给一个下一步」是硬规则，在需要穷举、多方案对比、完整推理链的场景会主动损害输出质量。这是拿表达效率换信息完整度的硬交易。另有 5 个平台适配意味着各平台行为不完全一致</div>
+          <div class="final-verdict"><b>结论</b> <span class="verdict v-3">&#9733;&#9733;&#9733;</span> —— 今天就装，1 分钟，零风险零成本。但建议按场景开关：日常问答开着，深度研究关掉。想改直接 fork 改 SKILL.md。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="project-card">
+      <div class="project-card-header">
+        <div class="name-row">
+          <span class="rank-num">#6</span>
+          <h3><a href="https://github.com/google-research/timesfm">google-research/timesfm</a></h3>
+          <span class="lang-tag">Python</span>
+        </div>
+        <div class="stars-info">
+          <span class="stars-num">33,871 总</span>
+          <span class="stars-gained">+5,681 本月</span>
+          <span class="idx-cool">指数 17%</span>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <div class="proj-what-is-it">
+          <span class="dim-label">① 一句话价值 + 适合谁</span>
+          <span class="one-liner">谷歌开源的时间序列预测基础模型。</span>
+          <div class="proj-who">
+            <span class="persona">做销量预测、容量规划、时序指标的量化团队</span>
+            <span class="persona persona-no">需要官方 SLA 的生产系统——README 声明开源版非官方支持</span>
+          </div>
+        </div>
+        <div class="proj-tech">
+          <span class="dim-label">② 技术栈与实现</span>
+          <table>
+            <tr><td>核心依赖</td><td>PyTorch · MLX（Apple Silicon）· NumPy · Hugging Face Transformers · PEFT / LoRA</td></tr>
+            <tr><td>形态</td><td>pip install timesfm[torch] 或 [mlx]，预训练权重 + 微调示例</td></tr>
+            <tr><td>代码规模</td><td>387 commits（具体 LOC 未能核实）</td></tr>
+          </table>
+          <p class="tech-note">3.0 新增原生多变量预测和协变量支持（past-only / past-and-future）。上下文超过 15,360 会被截断到最近的点。旧的 1.0/2.0 保持归档。</p>
+        </div>
+        <div class="proj-why-hot">
+          <span class="dim-label">③ 为什么突然火</span>
+          <ul>
+            <li><b>数据证据</b>：本月 +5,681，总量 33,871，指数 17%，增速 0.20×。<b>纯自然增长，增速低于存量</b></li>
+            <li><b>时机因素</b>：2026 年 8 月的 3.0 版本更新（多变量 + 协变量）大概率是这波增量来源；时序基础模型是近两年少数被工业界真正验证过的 LLM-adjacent 方向</li>
+            <li><b>传播路径</b>：Google Research 官方渠道，具体首发来源未能核实</li>
+          </ul>
+        </div>
+        <div class="proj-verdict">
+          <span class="dim-label">④ 可落地性与风险</span>
+          <div class="vrow"><b>本地门槛</b>：无 API key。PyTorch 路径需 CUDA GPU，Apple Silicon 走 MLX 无需 PyTorch。需下载权重</div>
+          <div class="vrow"><b>上手成本</b>：pip install 后即可推理，微调有 LoRA 示例，中等</div>
+          <div class="vrow"><b>成熟度</b>：33.9k star / 3,261 fork。有明确 release（3.0，2026-08；PyPI 2.0.2 于 2026-07-02）。<b>但 README 明确声明：开源版本不是谷歌官方支持的产品</b></div>
+          <div class="vrow"><b>风险</b>：<span class="warn">上下文超 15,360 会静默截断</span>，长历史场景会失真而且不报错；「非官方支持产品」意味着没有 SLA，出问题得自己兜；权重体积大，首次下载成本高</div>
+          <div class="final-verdict"><b>结论</b> <span class="verdict v-2">&#9733;&#9733;</span> —— 模型能力是同类里最扎实的，但开箱不能直接上生产。上生产前先量一下实际时间窗口会不会撞上 15,360 截断。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="project-card">
+      <div class="project-card-header">
+        <div class="name-row">
+          <span class="rank-num">#7</span>
+          <h3><a href="https://github.com/jingyaogong/minimind">jingyaogong/minimind</a></h3>
+          <span class="lang-tag">Python</span>
+        </div>
+        <div class="stars-info">
+          <span class="stars-num">62,781 总</span>
+          <span class="stars-gained">+7,876 本月</span>
+          <span class="idx-cool">指数 13%</span>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <div class="proj-what-is-it">
+          <span class="dim-label">① 一句话价值 + 适合谁</span>
+          <span class="one-liner">两小时从零训一个 64M 的小模型。</span>
+          <div class="proj-who">
+            <span class="persona">想搞懂 LLM 全流程（预训练 → SFT → LoRA → DPO/PPO/GRPO → 蒸馏）的学生和教学场景</span>
+            <span class="persona persona-no">要生产级模型质量的人——64M 的能力上限摆在那里</span>
+          </div>
+        </div>
+        <div class="proj-tech">
+          <span class="dim-label">② 技术栈与实现</span>
+          <table>
+            <tr><td>核心依赖</td><td>原生 PyTorch 手写，不用高层框架封装。兼容 transformers / trl / peft / DeepSpeed / llama.cpp / vLLM / Ollama / SGLang</td></tr>
+            <tr><td>形态</td><td>训练脚本集 + 权重 + 推理脚本 + Streamlit WebUI + OpenAI 兼容 API server</td></tr>
+            <tr><td>代码规模</td><td>408 commits（具体 LOC 未能核实）</td></tr>
+          </table>
+          <p class="tech-note">价值在于<b>把每一层都摊开给你看</b>：算法直接用 PyTorch 实现而不是调 trl 的黑盒。代价是参考环境很重——Ubuntu 20.04 + Python 3.10.16 + CUDA 12.2 + i9 + 128GB 内存 + <b>8 张 RTX 3090（每张 24G）</b>。</p>
+        </div>
+        <div class="proj-why-hot">
+          <span class="dim-label">③ 为什么突然火</span>
+          <ul>
+            <li><b>数据证据</b>：本月 +7,876，总量 62,781，指数 13%，增速 0.14×。<b>本期总 star 最高，但增速最低的一档</b>——已沉淀的常青项目，不是新热点</li>
+            <li><b>时机因素</b>：中文社区的 LLM 教程需求长期旺盛，minimind 是其中覆盖最全、从零最彻底的一份</li>
+            <li><b>传播路径</b>：未能核实</li>
+          </ul>
+        </div>
+        <div class="proj-verdict">
+          <span class="dim-label">④ 可落地性与风险</span>
+          <div class="vrow"><b>本地门槛</b>：<b>本期最高的一档。</b>训练需要 8×3090 级别；下载权重后单卡推理可以；CPU 和 MPS 能跑但 README 明说「慢得多」。训练不需要 API key</div>
+          <div class="vrow"><b>上手成本</b>：只做推理约半小时；要复现全流程训练是几天到几周的工程量</div>
+          <div class="vrow"><b>成熟度</b>：62.8k star / <b>8,162 fork（本期 fork 最高）</b>——大量人在读代码。有 release（minimind-3，2026-04-01）</div>
+          <div class="vrow"><b>风险</b>：<span class="warn">README 自己承认</span> 64M 模型「事实知识有限、英语表现弱、部分基准接近随机」；训练硬件门槛劝退绝大多数个人；作者自承 agentic RL 是「简化的同步教学版，不是工业框架」；小模型奖励稀疏、推理与工具调用同时训练不稳定</div>
+          <div class="final-verdict"><b>结论</b> <span class="verdict v-2">&#9733;&#9733;</span> —— 当教材用很好用（fork 率说明大量人在读代码），当模型用不行。只下载权重做推理的话门槛可接受；想自己训，先确认你有 8 卡集群。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="project-card">
+      <div class="project-card-header">
+        <div class="name-row">
+          <span class="rank-num">#8</span>
+          <h3><a href="https://github.com/MakazhanAlpamys/Soup">MakazhanAlpamys/Soup</a></h3>
+          <span class="lang-tag">Python</span>
+        </div>
+        <div class="stars-info">
+          <span class="stars-num">7,421 总</span>
+          <span class="stars-gained">+4,140 本月</span>
+          <span class="idx-warm">指数 56%</span>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <div class="proj-what-is-it">
+          <span class="dim-label">① 一句话价值 + 适合谁</span>
+          <span class="one-liner">一个 YAML 文件微调大模型，4G 显存也能跑。</span>
+          <div class="proj-who">
+            <span class="persona">手上有一块消费级显卡、想做 LoRA 微调但不想写训练脚本的人</span>
+            <span class="persona persona-no">需要多卡大规模训练的人——多卡验证还在路线图上</span>
+          </div>
+        </div>
+        <div class="proj-tech">
+          <span class="dim-label">② 技术栈与实现</span>
+          <table>
+            <tr><td>核心依赖</td><td>PyTorch · Transformers · PEFT · TRL · Datasets；可选 Unsloth / MLX / Docker / HF Hub</td></tr>
+            <tr><td>形态</td><td>CLI（pipx install soup-cli）+ 本地 Web 面板（127.0.0.1:7860）+ OpenAI 兼容 serving endpoint</td></tr>
+            <tr><td>代码规模</td><td>1,513 commits（具体 LOC 未能核实）</td></tr>
+          </table>
+          <p class="tech-note">杀手锏是<b>分层流式（layer streaming）</b>：把 8B 模型分层加载，4GB 显存也能训。配套 soup init → soup train --config soup.yaml 两步走。有 GPU 的 Docker 镜像，以及一个免费 Colab T4 notebook 可直接验证 4GB 宣传。</p>
+        </div>
+        <div class="proj-why-hot">
+          <span class="dim-label">③ 为什么突然火</span>
+          <ul>
+            <li><b>数据证据</b>：本月 +4,140，总量 7,421，指数 56%，增速 1.3×。过半 star 是本月新增</li>
+            <li><b>时机因素</b>：微调工具链长期被 nvidia 命令行和 llama.cpp 占据，缺一个「配置文件驱动」的层；「4GB 显存训 8B」这个数字本身极具传播性</li>
+            <li><b>传播路径</b>：未能核实</li>
+          </ul>
+        </div>
+        <div class="proj-verdict">
+          <span class="dim-label">④ 可落地性与风险</span>
+          <div class="vrow"><b>本地门槛</b>：推荐 CUDA GPU，7B + QLoRA 需 <b>8GB 显存</b>；Apple Silicon / MPS 支持；CPU 仅为实验性，README 说「very slow」。无需 API key</div>
+          <div class="vrow"><b>上手成本</b>：低。两条 pipx 命令 + 一个 YAML</div>
+          <div class="vrow"><b>成熟度</b>：7.4k star / 1,190 fork。有 release（v0.75.0），但页面未显示 release 日期</div>
+          <div class="vrow"><b>风险</b>：<span class="warn">分层流式明确标注 BETA</span>，且 4GB 那个 3.32 GB / 119.6 tok/s 的成绩用 v0.72.2 测的，早于一次正确性修复，且从未在真实 4GB 卡上复测（追踪在 issue #361）；Python 3.13+ 不支持；MLX 上 32 个优化器只有 8 个有等价实现；v0.75.0 改了目标函数，旧 gspo 配置无法复现历史结果</div>
+          <div class="final-verdict"><b>结论</b> <span class="verdict v-3">&#9733;&#9733;&#9733;</span> —— 准入门槛低、有免费 Colab 可以零成本先验证。上手前记住：4GB 是 BETA 特性，v0.75 有不兼容变更，锁版本。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="project-card">
+      <div class="project-card-header">
+        <div class="name-row">
+          <span class="rank-num">#9</span>
+          <h3><a href="https://github.com/experientiallabs/experiential">experientiallabs/experiential</a></h3>
+          <span class="lang-tag">Python</span>
+        </div>
+        <div class="stars-info">
+          <span class="stars-num">7,238 总</span>
+          <span class="stars-gained">+6,829 本月</span>
+          <span class="idx-hot">指数 94%</span>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <div class="proj-what-is-it">
+          <span class="dim-label">① 一句话价值 + 适合谁</span>
+          <span class="one-liner">自建模型网关，按流量降本并训专用模型。</span>
+          <div class="proj-who">
+            <span class="persona">已经在付 OpenAI / Anthropic 账单、且有足够流量数据想优化成本的团队</span>
+            <span class="persona persona-no">用量还小、账单三位数以内的项目——降本工具自己就是成本</span>
+          </div>
+        </div>
+        <div class="proj-tech">
+          <span class="dim-label">② 技术栈与实现</span>
+          <table>
+            <tr><td>核心依赖</td><td>页面未列具体依赖，仅见 pyproject.toml / uv.lock / justfile；OpenAI 兼容 API，同时支持 Anthropic Messages</td></tr>
+            <tr><td>形态</td><td>Python 包（pip install experiential）+ 本地网关（exp）+ 托管平台</td></tr>
+            <tr><td>代码规模</td><td>776 commits（具体 LOC 未能核实）</td></tr>
+          </table>
+          <p class="tech-note">统一托管、BYOK（自带 key）、本地三类模型到一个 OpenAI 兼容端点后面，带权限和预算控制。捕获流量做路由优化、训练专用小模型是它的差异点。</p>
+        </div>
+        <div class="proj-why-hot">
+          <span class="dim-label">③ 为什么突然火</span>
+          <ul>
+            <li><b>数据证据</b>：本月 +6,829，总量 7,238，指数 <b>94%</b>——94% 的 star 是本月拿到的。增速 <b>16.7×</b>。总 star 只有 7.2k 但本月新增 6.8k，基数扎实</li>
+            <li><b>时机因素</b>：「零加价（zero-markup）」直接打大模型 API 的价格痛点；托管版 + 托管 API 都在，落地门槛低</li>
+            <li><b>传播路径</b>：未能核实</li>
+          </ul>
+        </div>
+        <div class="proj-verdict">
+          <span class="dim-label">④ 可落地性与风险</span>
+          <div class="vrow"><b>本地门槛</b>：pip install 无硬件要求，但需要 gateway key 或自带 provider key。<b>流量捕获功能要求 macOS + Python 3.13+，并需批准扩展和证书</b></div>
+          <div class="vrow"><b>上手成本</b>：中。exp 启动后有配置向导，默认给 50 美元命令预算</div>
+          <div class="vrow"><b>成熟度</b>：7.2k star / <b>仅 210 fork（fork 率 2.9%，本期最低）</b>——说明绝大多数人用托管版而非自建。无 release，未显示最新提交日期</div>
+          <div class="vrow"><b>风险</b>：<span class="warn">流量捕获是实验性功能</span>，README 原文「macOS 网络可靠性仍在排查中」，且只支持 Codex 和 Claude Code 桌面端；捕获流量意味着敏感数据经过你的机器；商业上依赖 experientiallabs.ai 这家小公司，长期可用性无保障</div>
+          <div class="final-verdict"><b>结论</b> <span class="verdict v-2">&#9733;&#9733;</span> —— 先用官方托管版（api.experientiallabs.ai）花小钱验证降本是否真实。别急着自建——fork 率 2.9% 说明连重度用户都主要在用托管版。捕获功能等它脱离实验状态再说。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="project-card">
+      <div class="project-card-header">
+        <div class="name-row">
+          <span class="rank-num">#10</span>
+          <h3><a href="https://github.com/K-Dense-AI/scientific-agent-skills">K-Dense-AI/scientific-agent-skills</a></h3>
+          <span class="lang-tag">Python</span>
+        </div>
+        <div class="stars-info">
+          <span class="stars-num">46,874 总</span>
+          <span class="stars-gained">+11,881 本月</span>
+          <span class="idx-warm">指数 25%</span>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <div class="proj-what-is-it">
+          <span class="dim-label">① 一句话价值 + 适合谁</span>
+          <span class="one-liner">166 个科研 skill，装上把 agent 变科学家。</span>
+          <div class="proj-who">
+            <span class="persona">生物、化学、药物发现、材料、地理空间方向的科研人员，或做科研 AI 工具的团队</span>
+            <span class="persona persona-no">普通开发者——166 个 skill 一次性装上会造成巨大的常驻上下文负担</span>
+          </div>
+        </div>
+        <div class="proj-tech">
+          <span class="dim-label">② 技术栈与实现</span>
+          <table>
+            <tr><td>核心依赖</td><td>RDKit · Scanpy · PyTorch Lightning · scikit-learn · PyTDC · PathML · pydicom · NeuroKit2 · QuTiP · GeoPandas · pymatgen · Biopython · Qiskit · OpenMM · MDAnalysis · scVelo · PyMC · NetworkX（基于 50+ 开源项目）</td></tr>
+            <tr><td>形态</td><td>开放的 Agent Skills 标准集合 + Python/uv 工具链</td></tr>
+            <tr><td>代码规模</td><td>732 commits，166 个 skill，版本 2.68.0</td></tr>
+          </table>
+          <p class="tech-note">装法统一：npx skills add 或 gh skill install。支持 Claude Code、Codex、Cursor、Gemini CLI、Antigravity 等。数据库和 API 类 skill 需要联网，多数需要凭据。</p>
+        </div>
+        <div class="proj-why-hot">
+          <span class="dim-label">③ 为什么突然火</span>
+          <ul>
+            <li><b>数据证据</b>：本月 +11,881，总量 46,874，指数 25%，增速 0.34×。绝对新增量本期第三，但增速温和——稳定扩张</li>
+            <li><b>时机因素</b>：agent skill 生态正从「通用生产力」向「垂直专业领域」扩散，科研是其中最被看好的方向。Bio / Chem / Drug discovery 有明确付费能力和大量公开数据</li>
+            <li><b>传播路径</b>：未能核实</li>
+          </ul>
+        </div>
+        <div class="proj-verdict">
+          <span class="dim-label">④ 可落地性与风险</span>
+          <div class="vrow"><b>本地门槛</b>：无 GPU 要求，<b>Python 3.13+ 和 uv 是硬性前提</b>。系统要求 macOS / Linux / Windows 需 WSL2。需要兼容的 AI agent host。数据库类 skill 需要 API key</div>
+          <div class="vrow"><b>上手成本</b>：装单个 skill 很低；全量 166 个不推荐——README 自己就说了会占用大量常驻上下文</div>
+          <div class="vrow"><b>成熟度</b>：46.9k star / 4,232 fork。版本 2.68.0，732 commits。页面未显示提交或版本日期</div>
+          <div class="vrow"><b>风险</b>：<span class="warn">这是安全风险最集中的一个</span>。README 明确警告 skill 可以执行代码、安装包、发网络请求、修改文件；它自己也承认「安全扫描能降低风险但不能保证没有漏洞」，且社区贡献的 skill 审查强度不如官方；全量安装上下文成本高；不同 host 行为不一致；Windows 需 WSL2</div>
+          <div class="final-verdict"><b>结论</b> <span class="verdict v-2">&#9733;&#9733;</span> —— 精准装你真正需要的 2-5 个，别全装。科学方向的研究者值得投入时间；其他方向请直接跳过。把每个要装的 skill 当代码 review 一遍再上。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div><!-- /tab-detailed -->
+
+</div><!-- /main -->
+
+<div class="footer">
+  由 pydigest 生成 &middot; 数据源 github.com/trending/python?since=monthly &middot; 抓取时间 2026-09-28 &middot; 首期，无对比基准
+</div>
+
+<script>
+  function switchTab(name, el) {
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-content').forEach(function(tab) {
+      tab.classList.remove('active');
+    });
+    el.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+</script>
+
+</body>
+</html>

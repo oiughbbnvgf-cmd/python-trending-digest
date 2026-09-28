@@ -1,0 +1,13 @@
+# 统一按 LF 存储，避免 Windows 上 CRLF/LF 混用
+# —— data/history.jsonl 是逐行追加的，混用换行符会让 diff 变脏
+* text=auto eol=lf
+
+*.md   text eol=lf
+*.json text eol=lf
+*.jsonl text eol=lf
+*.html text eol=lf
+
+# 二进制
+*.png  binary
+*.jpg  binary
+*.ico  binary

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python 月榜 Top 10 深度摘要 · YYYY-MM-DD</title>
+<style>
+  /* ═══════════════════════════════════════════════
+     RESET & BASE
+     ═══════════════════════════════════════════════ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+                 "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    color: #1a1a2e;
+    background: #f0f2f5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══════════════════════════════════════════════
+     HERO HEADER
+     ═══════════════════════════════════════════════ */
+  .hero {
+    position: relative;
+    background: linear-gradient(160deg, #0d1117 0%, #161b22 40%, #0f1a2e 70%, #1a0a2e 100%);
+    color: #fff;
+    padding: 56px 0 44px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 50%, rgba(88,166,255,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(163,113,247,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.12) 70%, transparent);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .hero h1 {
+    font-size: 30px;
+    font-weight: 750;
+    letter-spacing: -0.6px;
+    line-height: 1.25;
+  }
+  .hero h1 .icon { margin-right: 10px; }
+  .hero .subtitle {
+    margin-top: 6px;
+    font-size: 15px;
+    color: #8b949e;
+    font-weight: 400;
+  }
+  .hero .meta-row {
+    margin-top: 18px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .hero .meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.08);
+    color: #c9d1d9;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .hero .meta-chip .chip-label { color: #58a6ff; font-weight: 600; margin-right: 2px; }
+
+  /* ═══════════════════════════════════════════════
+     STATS BAR
+     ═══════════════════════════════════════════════ */
+  .stats-bar {
+    max-width: 1000px;
+    margin: -18px auto 0;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .stat-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    border: 1px solid #e8eaed;
+  }
+  .stat-card .stat-num {
+    font-size: 28px;
+    font-weight: 750;
+    letter-spacing: -0.5px;
+  }
+  .stat-card .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-top: 2px;
+  }
+  .stat-new  .stat-num { color: #1a7f37; }
+  .stat-hot  .stat-num { color: #9a6700; }
+  .stat-drop .stat-num { color: #cf222e; }
+  .stat-total .stat-num { color: #0969da; }
+
+  /* ═══════════════════════════════════════════════
+     MAIN CONTENT AREA
+     ═══════════════════════════════════════════════ */
+  .main {
+    max-width: 1000px;
+    margin: 28px auto 0;
+    padding: 0 24px;
+    padding-bottom: 80px;
+  }
+
+  /* ═══════════════════════════════════════════════
+     TAB NAVIGATION
+     ═══════════════════════════════════════════════ */
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid #e8eaed;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    border-radius: 7px;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .tab-btn.active {
+    background: #0969da;
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(9,105,218,0.3);
+  }
+  .tab-btn:not(.active):hover { color: #1a1a2e; background: #f6f8fa; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ═══════════════════════════════════════════════
+     SECTION CARDS
+     ═══════════════════════════════════════════════ */
+  .section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 26px 30px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid #e8eaed;
+  }
+  .section h2 {
+    font-size: 18px;
+    font-weight: 650;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section .section-note {
+    font-size: 13px;
+    color: #6b7280;
+    margin: -8px 0 14px;
+  }
+
+  /* ── Badges ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .badge-new  { background: #dafbe1; color: #116329; }
+  .badge-hot  { background: #fff8c5; color: #7a6000; }
+  .badge-drop { background: #ffebe9; color: #a40e26; }
+
+  /* ── Tables ── */
+  .table-wrap { overflow-x: auto; margin: 0 -4px; padding: 0 4px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 620px;
+  }
+  thead th {
+    text-align: left;
+    padding: 8px 12px 10px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: #6b7280;
+    border-bottom: 2px solid #e5e7eb;
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 11px 12px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr { transition: background 0.15s; }
+  tbody tr:hover { background: #f6f8fa; }
+
+  .rank-num { font-weight: 700; color: #6b7280; font-size: 13px; }
+  .project-link { color: #0969da; text-decoration: none; font-weight: 600; }
+  .project-link:hover { text-decoration: underline; }
+  .lang-tag {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    background: #f0f0f5;
+    color: #555;
+    white-space: nowrap;
+  }
+  .stars-num   { font-weight: 650; color: #1a1a2e; white-space: nowrap; }
+  .stars-gained { color: #1a7f37; font-weight: 650; white-space: nowrap; }
+  .stars-lost   { color: #cf222e; font-weight: 650; white-space: nowrap; }
+  .evidence-text { font-size: 13px; color: #6b7280; }
+  .explain-text  { font-size: 14px; line-height: 1.55; }
+  .muted { color: #9ca3af; font-size: 13px; }
+
+  /* 新项目指数：高亮 */
+  .idx-hot  { color: #cf222e; font-weight: 700; white-space: nowrap; }
+  .idx-warm { color: #9a6700; font-weight: 700; white-space: nowrap; }
+  .idx-cool { color: #6b7280; font-weight: 600; white-space: nowrap; }
+
+  /* 推荐星级 */
+  .verdict { font-weight: 700; white-space: nowrap; letter-spacing: 1px; }
+  .v-3 { color: #1a7f37; }
+  .v-2 { color: #9a6700; }
+  .v-1 { color: #cf222e; }
+
+  /* ── Trend Read ── */
+  .trend-read p { margin-bottom: 10px; font-size: 15px; line-height: 1.75; }
+  .trend-read p:last-child { margin-bottom: 0; }
+  .trend-read h3 { font-size: 15px; font-weight: 650; margin: 14px 0 6px; }
+
+  /* ═══════════════════════════════════════════════
+     DETAIL TAB — PROJECT CARDS
+     ═══════════════════════════════════════════════ */
+  .detail-list { display: flex; flex-direction: column; gap: 20px; }
+
+  .project-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid #e8eaed;
+  }
+  .project-card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f0f0f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .project-card-header .name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .project-card-header h3 {
+    font-size: 18px;
+    font-weight: 650;
+  }
+  .project-card-header h3 a {
+    color: #0969da;
+    text-decoration: none;
+  }
+  .project-card-header h3 a:hover { text-decoration: underline; }
+  .project-card-header .stars-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    color: #6b7280;
+    white-space: nowrap;
+  }
+  .project-card-body {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* 四个维度的统一小标题 */
+  .dim-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    color: #6b7280;
+    margin-bottom: 5px;
+  }
+
+  /* ① 一句话价值 */
+  .proj-what-is-it { font-size: 15px; line-height: 1.6; }
+  .proj-what-is-it .one-liner { font-weight: 600; }
+  .proj-who { font-size: 14px; line-height: 1.6; margin-top: 8px; }
+  .proj-who .persona {
+    display: inline-block;
+    padding: 3px 10px;
+    margin: 2px 4px 2px 0;
+    background: #eaf2fd;
+    color: #0550ae;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .proj-who .persona.persona-no { background: #ffebe9; color: #a40e26; }
+
+  /* ② 技术栈 */
+  .proj-tech table { min-width: 0; font-size: 13.5px; }
+  .proj-tech td { padding: 7px 10px; }
+  .proj-tech td:first-child {
+    width: 92px;
+    color: #6b7280;
+    font-weight: 600;
+    background: #f6f8fa;
+    white-space: nowrap;
+  }
+  .proj-tech .tech-note { font-size: 14px; line-height: 1.6; margin-top: 10px; }
+
+  /* ③ 爆火归因 */
+  .proj-why-hot {
+    background: #fffbeb;
+    border-left: 3px solid #d4a72c;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+  }
+  .proj-why-hot ul { list-style: none; padding: 0; }
+  .proj-why-hot li {
+    font-size: 14px;
+    line-height: 1.6;
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .proj-why-hot li:last-child { margin-bottom: 0; }
+  .proj-why-hot li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #9a6700;
+    font-weight: 700;
+  }
+  .proj-why-hot li b { color: #7a6000; }
+
+  /* ④ 可落地性 */
+  .proj-verdict {
+    border: 1px solid #e8eaed;
+    border-radius: 8px;
+    padding: 14px 16px;
+    background: #fbfcfd;
+  }
+  .proj-verdict .vrow {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 5px;
+  }
+  .proj-verdict .vrow:last-of-type { margin-bottom: 10px; }
+  .proj-verdict .vrow b { color: #414651; }
+  .proj-verdict .final-verdict {
+    border-top: 1px dashed #d0d7de;
+    padding-top: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* 复现过的旧项目 */
+  .prior-note {
+    font-size: 13px;
+    color: #6b7280;
+    background: #f6f8fa;
+    padding: 10px 16px;
+    border-radius: 8px;
+  }
+
+  /* ═══════════════════════════════════════════════
+     EMPTY / PLACEHOLDER
+     ═══════════════════════════════════════════════ */
+  .empty-row td { text-align: center; color: #9ca3af; padding: 20px 12px !important; }
+
+  /* ═══════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════ */
+  .footer {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+  }
+
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════════ */
+  @media (max-width: 700px) {
+    .hero { padding: 36px 0 30px; }
+    .hero h1 { font-size: 22px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat-card { padding: 14px 12px; }
+    .stat-card .stat-num { font-size: 22px; }
+    .section { padding: 18px 14px; }
+    .tab-nav { flex-wrap: wrap; }
+    .tab-btn { flex: unset; width: 50%; }
+    .project-card-header { flex-direction: column; gap: 8px; }
+  }
+
+  /* ═══════════════════════════════════════════════
+     PRINT
+     ═══════════════════════════════════════════════ */
+  @media print {
+    body { background: #fff; }
+    .hero { background: #0d1117; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tab-nav { display: none; }
+    .tab-content { display: block !important; margin-bottom: 30px; }
+    .section, .project-card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+    .stats-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-content">
+    <h1><span class="icon">&#x1f4ca;</span>Python 月榜 Top 10 深度摘要 &mdash; YYYY-MM-DD</h1>
+    <p class="subtitle">一句话价值 · 技术栈拆解 · 爆火归因 · 可落地性</p>
+    <div class="meta-row">
+      <span class="meta-chip"><span class="chip-label">语言</span> Python</span>
+      <span class="meta-chip"><span class="chip-label">周期</span> monthly</span>
+      <span class="meta-chip"><span class="chip-label">来源</span> github.com/trending</span>
+      <span class="meta-chip"><span class="chip-label">对比基准</span> &lt;历史报告日期或「无」&gt;</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     STATS
+     ═══════════════════════════════════════════════ -->
+<div class="stats-bar">
+  <!--
+    四个数字的算法：
+      项目总数          = 10
+      新项目指数>60%    = 本月新增/总star 超过 60% 的项目数
+      增速倍数中位数    = 10 个项目 gained/(stars-gained) 的中位数
+                          ⚠️ 用中位数不用均值——该分布极度右偏，单个 90× 的项目
+                             能把均值拉高一个数量级
+      零门槛可跑        = 既不需要 API key、也不需要 GPU 的项目数
+  -->
+  <div class="stat-card stat-total"><div class="stat-num">10</div><div class="stat-label">项目总数</div></div>
+  <div class="stat-card stat-new"><div class="stat-num">4</div><div class="stat-label">新项目指数 &gt; 60%</div></div>
+  <div class="stat-card stat-hot"><div class="stat-num">1.2</div><div class="stat-label">增速倍数中位数</div></div>
+  <div class="stat-card stat-drop"><div class="stat-num">2</div><div class="stat-label">零门槛可跑</div></div>
+</div>
+
+<div class="main">
+
+  <!-- ════════════════════════════════════════════
+       TAB BAR
+       ════════════════════════════════════════════ -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('briefing', this)">榜单速览</button>
+    <button class="tab-btn" onclick="switchTab('detailed', this)">深度拆解</button>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       TAB 1: 榜单速览
+       ════════════════════════════════════════════ -->
+  <div id="tab-briefing" class="tab-content active">
+
+    <!-- ── 榜单速览 ── -->
+    <div class="section">
+      <h2><span class="badge badge-new">TOP 10</span> 榜单速览</h2>
+      <p class="section-note">新项目指数 = 本月新增 ÷ 总 Star。&gt; 60% 标红（本月首次出圈），25–60% 标黄（上升期），&lt; 25% 灰色（老项目回潮）。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>项目</th><th>总 Star</th><th>本月新增</th><th>新项目指数</th><th>一句话价值</th></tr>
+          </thead>
+          <tbody>
+            <!--
+              10 行，每行一个项目：
+              <tr>
+                <td class="rank-num">1</td>
+                <td><a class="project-link" href="https://github.com/owner/repo">owner/repo</a></td>
+                <td class="stars-num">3,599</td>
+                <td class="stars-gained">+2,945</td>
+                <td class="idx-hot">82%</td>
+                <td class="explain-text">30 字以内的一句话价值</td>
+              </tr>
+            -->
+            <tr class="empty-row"><td colspan="6">(尚未填充数据)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── 爆火归因 ── -->
+    <div class="section">
+      <h2><span class="badge badge-hot">爆火</span> 为什么突然火</h2>
+      <p class="section-note">按增速倍数排序。倍数 = 本月新增 ÷ 此前存量 star，数值越大说明发现得越突然。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>项目</th><th>增速倍数</th><th>归因</th></tr>
+          </thead>
+          <tbody>
+            <!--
+              <tr>
+                <td class="rank-num">1</td>
+                <td><a class="project-link" href="https://github.com/owner/repo">owner/repo</a></td>
+                <td class="stars-gained">4.6×</td>
+                <td class="explain-text">数据证据 + 时机因素 + 传播路径，一段话讲完。</td>
+              </tr>
+            -->
+            <tr class="empty-row"><td colspan="4">(尚未填充数据)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── 可落地性排序 ── -->
+    <div class="section">
+      <h2><span class="badge badge-drop">决策</span> 可落地性与建议</h2>
+      <p class="section-note">不按 star 排，按「值不值得投入」排。这张表是本报告最该先看的一张。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>项目</th><th>门槛</th><th>上手成本</th><th>结论</th><th>一句话建议</th></tr>
+          </thead>
+          <tbody>
+            <!--
+              <tr>
+                <td><a class="project-link" href="https://github.com/owner/repo">owner/repo</a></td>
+                <td class="evidence-text">无，纯 Python 库</td>
+                <td class="evidence-text">5 分钟</td>
+                <td class="verdict v-3">&#9733;&#9733;&#9733;</td>
+                <td class="explain-text">今天就能试。</td>
+              </tr>
+            -->
+            <tr class="empty-row"><td colspan="5">(尚未填充数据)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── 生态趋势 ── -->
+    <div class="section trend-read">
+      <h2>&#x1f50d; 生态趋势</h2>
+      <!--
+        2-4 个主题，每段必须引用具体项目名 + 排名 + 新增 star 作为证据。
+        <h3>1. 趋势小标题</h3>
+        <p>用具体数字论证的第一段。</p>
+      -->
+      <p class="muted">(尚未填充分析)</p>
+    </div>
+
+    <!-- ── 完整数据表 ── -->
+    <div class="section">
+      <h2>&#x1f4cb; 完整数据</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>项目</th><th>语言</th><th>总 Star</th><th>Fork</th><th>本月新增</th><th>新项目指数</th></tr>
+          </thead>
+          <tbody>
+            <!--
+              <tr>
+                <td class="rank-num">1</td>
+                <td><a class="project-link" href="https://github.com/owner/repo">owner/repo</a></td>
+                <td><span class="lang-tag">Python</span></td>
+                <td class="stars-num">3,599</td>
+                <td class="evidence-text">120</td>
+                <td class="stars-gained">+2,945</td>
+                <td class="idx-hot">82%</td>
+              </tr>
+            -->
+            <tr class="empty-row"><td colspan="7">(尚未填充数据)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /tab-briefing -->
+
+  <!-- ════════════════════════════════════════════
+       TAB 2: 深度拆解
+       ════════════════════════════════════════════ -->
+  <div id="tab-detailed" class="tab-content">
+
+    <div class="detail-list">
+      <!--
+        每个项目一张 .project-card，四段顺序固定：
+
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="name-row">
+              <span class="rank-num">#1</span>
+              <h3><a href="https://github.com/owner/repo">owner/repo</a></h3>
+              <span class="lang-tag">Python</span>
+            </div>
+            <div class="stars-info">
+              <span class="stars-num">3,599 总</span>
+              <span class="stars-gained">+2,945 本月</span>
+              <span class="idx-hot">指数 82%</span>
+            </div>
+          </div>
+          <div class="project-card-body">
+
+            <!-- ① 一句话价值 + 适合谁 -->
+            <div class="proj-what-is-it">
+              <span class="dim-label">① 一句话价值 + 适合谁</span>
+              <span class="one-liner">30 字以内讲清它替代/解决什么。</span>
+              <div class="proj-who">
+                <span class="persona">同时接了 3+ 家模型 API 的团队</span>
+                <span class="persona persona-no">刚起步的单机个人项目</span>
+              </div>
+            </div>
+
+            <!-- ② 技术栈与实现 -->
+            <div class="proj-tech">
+              <span class="dim-label">② 技术栈与实现</span>
+              <table>
+                <tr><td>核心依赖</td><td>FastAPI · LiteLLM · Redis</td></tr>
+                <tr><td>形态</td><td>独立服务 + 客户端 SDK</td></tr>
+                <tr><td>代码规模</td><td>约 40 个文件，8k LOC</td></tr>
+              </table>
+              <p class="tech-note">2-3 句讲实现取舍，不复述依赖列表。</p>
+            </div>
+
+            <!-- ③ 为什么突然火 -->
+            <div class="proj-why-hot">
+              <span class="dim-label">③ 为什么突然火</span>
+              <ul>
+                <li><b>数据证据</b>：本月 +2,945，总量 3,599，指数 82%，增速 4.6×</li>
+                <li><b>时机因素</b>：发布不到两个月，踩中 Agent 工具链热点</li>
+                <li><b>传播路径</b>：未查到明确的单一来源</li>
+              </ul>
+            </div>
+
+            <!-- ④ 可落地性与风险 -->
+            <div class="proj-verdict">
+              <span class="dim-label">④ 可落地性与风险</span>
+              <div class="vrow"><b>本地门槛</b>：无，pip install 即可，无需 API key</div>
+              <div class="vrow"><b>上手成本</b>：约 10 分钟跑通 demo</div>
+              <div class="vrow"><b>成熟度</b>：star/fork = 30，issue 响应及时</div>
+              <div class="vrow"><b>风险</b>：项目很新，API 可能变动；无稳定 release，接口随时可能变</div>
+              <div class="final-verdict">
+                <b>结论</b> <span class="verdict v-3">&#9733;&#9733;&#9733;</span> —— 今天就能试，成本几乎为零。
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        历史报告中已出现过的项目，用精简卡片：
+        <div class="project-card" style="opacity:0.75">
+          <div class="project-card-header">
+            <div class="name-row">
+              <span class="rank-num">#4</span>
+              <h3><a href="https://github.com/owner/repo">owner/repo</a></h3>
+            </div>
+            <div class="stars-info"><span class="stars-gained">+1,200 本月</span></div>
+          </div>
+          <div class="project-card-body">
+            <div class="prior-note">已连续 3 期在榜，完整拆解见 2026-07-01 期报告。本期新增信息：依赖从 X 升级到 Y。</div>
+          </div>
+        </div>
+      -->
+      <p class="muted" style="text-align:center; padding:40px 0;">(尚未填充数据)</p>
+    </div>
+
+  </div><!-- /tab-detailed -->
+
+</div><!-- /main -->
+
+<div class="footer">
+  由 pydigest 生成 &middot; 数据源 github.com/trending/python?since=monthly &middot; <span class="generated-date">YYYY-MM-DD HH:MM</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB SWITCHING SCRIPT
+     ═══════════════════════════════════════════════ -->
+<script>
+  function switchTab(name, el) {
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-content').forEach(function(tab) {
+      tab.classList.remove('active');
+    });
+    el.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+</script>
+
+</body>
+</html>

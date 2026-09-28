@@ -1,0 +1,13 @@
+# Claude Code 本地配置（个人权限设置，不该进版本库）
+.claude/settings.local.json
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
